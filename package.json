@@ -1,0 +1,43 @@
+{
+  "name": "vue-floating-buttons",
+  "version": "0.0.1",
+  "description": "A floating buttons menu with Vue.js",
+  "main": "src/index.js",
+  "keywords": [
+    "vue",
+    "floating",
+    "buttons",
+    "button",
+    "waldou"
+  ],
+  "author": {
+    "name": "Waldo Urribarri",
+    "email": "waldouchile@gmail.com",
+    "url": "https://www.waldou.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --watch",
+    "tests": "jest --coverage && vue-cli-service lint"
+  },
+  "devDependencies": {
+    "vue": "^2.6.12",
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-plugin-unit-jest": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
+    "@vue/test-utils": "^1.1.0",
+    "vue-template-compiler": "^2.6.12",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.3.0",
+    "babel-plugin-macros": "^2.8.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vue-scoped-css": "^0.5.0"
+  },
+  "dependencies": {}
+}
