@@ -22,7 +22,6 @@ const buttons = [
 
 const buttonsWithDefaults = [ { html: 'Hi', }, { html: 'Hola', } ]
 const buttonsWithoutDefaults = [ { html: 'Hi', color: 'black', radius: 16 }, { html: 'Hola', color: 'white', radius: 512, click: jest.fn() } ]
-
 const propsData = { buttons }
 
 beforeEach(() => {
@@ -183,6 +182,46 @@ describe('buttons without defaults', () => {
       expect(button.element.style._values['width']).toBe(radius + 'px')
       expect(button.element.style._values['height']).toBe(radius + 'px')
       expect(button.element.style._values['border-radius']).toBe(radius + 'px')
+    })
+  })
+})
+
+describe('disabled buttons', () => {
+  const disabledButtons = [ { html: 'Hi', disabled: true, disabledColor: 'red' }, { html: 'Hola', click: jest.fn(), disabled: true, disabledColor: 'yellow' } ]
+  const disabledButtonsWithoutColor = [ { html: 'Hi', disabled: true }, { html: 'Hola', disabled: true } ]
+
+  disabledButtons.forEach(({ disabledColor }, index) => {
+    it(`uses disabled color from props on button ${index}`, () => {
+      const wrapper = shallowMount(FloatingButtons, { propsData: { buttons: disabledButtons }})
+      const button = wrapper.findAll('.button').at(index)
+      expect(button.element.style._values['background-color']).toBe(disabledColor)
+    })
+  })
+
+  disabledButtonsWithoutColor.forEach((button, index) => {
+    it(`uses default disabled color on button ${index}`, () => {
+      const wrapper = shallowMount(FloatingButtons, { propsData: { buttons: disabledButtonsWithoutColor }})
+      const button = wrapper.findAll('.button').at(index)
+      expect(button.element.style._values['background-color']).toBe('rgb(187, 187, 187)')
+    })
+  })
+
+  it('ignores main button click', () => {
+    const wrapper = shallowMount(FloatingButtons, { propsData: { buttons: disabledButtons }})
+    const button = wrapper.find('#main-button')
+
+    expect(wrapper.vm.$data.isExpanded).toBe(false)
+
+    button.trigger('click', { path: [ { id: 'main-button' } ]})
+    expect(wrapper.vm.$data.isExpanded).toBe(false)
+  })
+
+  disabledButtons.slice(1, buttons.length).forEach(({ click }, index) => {
+    it(`ignores click handler from props in ${index + 1} option button`, () => {
+      const wrapper = shallowMount(FloatingButtons, { propsData: { buttons: disabledButtons }})
+      const button = wrapper.findAll('.button').at(index + 1)
+      button.trigger('click')
+      expect(click).not.toHaveBeenCalled()
     })
   })
 })

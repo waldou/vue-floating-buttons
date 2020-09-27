@@ -23,6 +23,8 @@
 | radius | Number | Adjust button radius. |
 | color | String | Background color. |
 | click | Function | Function to be called on click. Only works on option buttons. |
+| disabled | Boolean | Disable button. |
+| disabledColor | String | Background color when is disabled. |
 
 **Note: First button will be used as the main button.**
 

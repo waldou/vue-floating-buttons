@@ -13,6 +13,7 @@
 <script>
 const DEFAULT_MAIN_BUTTON_COLOR = '#fa6900'
 const DEFAULT_OPTION_BUTTON_COLOR = '#3ecce7'
+const DEFAULT_DISABLED_BUTTON_COLOR = '#bbbbbb'
 const DEFAULT_BUTTON_RADIUS = 64
 
 const MB_ID = 'main-button'
@@ -78,8 +79,10 @@ export default {
   },
   methods: {
     mainButtonClick: function(e) {
-      this.mainButtonAnimate(e)
-      this.isExpanded = !this.isExpanded
+      if(!this.buttons[0].disabled) {
+        this.mainButtonAnimate(e)
+        this.isExpanded = !this.isExpanded
+      }
     },
     mainButtonAnimate: function(e) {
       e.preventDefault
@@ -102,12 +105,17 @@ export default {
       }, MB_CLICK_ANIMATION_TRANSITION_DURATION)
     },
     optionButtonClick: function(button) {
-      if(button.click) {
+      if(!button.disabled && button.click) {
         button.click()
       }
     },
     fbOptionsStyle(optionIndex) {
-      const backgroundColor = this.fbOptionButtons[optionIndex].color || DEFAULT_OPTION_BUTTON_COLOR
+      let backgroundColor
+      if(this.fbOptionButtons[optionIndex].disabled) {
+        backgroundColor = this.fbOptionButtons[optionIndex].disabledColor || DEFAULT_DISABLED_BUTTON_COLOR
+      } else {
+        backgroundColor = this.fbOptionButtons[optionIndex].color || DEFAULT_OPTION_BUTTON_COLOR
+      }
       const radius = this.fbOptionButtons[optionIndex].radius || DEFAULT_BUTTON_RADIUS
       const animationDuration = BOUNCE_ANIMATION_DURATION + BOUNCE_ANIMATION_DURATION_OFFSET * optionIndex
       return 'background-color: ' + backgroundColor + '; ' +
@@ -126,7 +134,12 @@ export default {
       return 'floating-buttons-go-' + this.direction
     },
     fbMainButtonStyle() {
-      const backgroundColor = this.buttons[0].color || DEFAULT_MAIN_BUTTON_COLOR
+      let backgroundColor
+      if(this.buttons[0].disabled) {
+        backgroundColor = this.buttons[0].disabledColor || DEFAULT_DISABLED_BUTTON_COLOR
+      } else {
+        backgroundColor = this.buttons[0].color || DEFAULT_MAIN_BUTTON_COLOR
+      }
       const radius = this.buttons[0].radius || DEFAULT_BUTTON_RADIUS
       return 'background-color: ' + backgroundColor + '; ' +
               'width: ' + radius + 'px; ' +
